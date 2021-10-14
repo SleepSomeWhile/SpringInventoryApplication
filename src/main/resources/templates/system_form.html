@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${system.id == null}">Create New System</title>
+    <title th:unless="${system.id == null}">Edit System</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<div th:insert="navbar :: navbar">  </div>
+<div class="container text-center">
+    <div>
+        <h1 th:if="${system.id == null}">Create New System</h1>
+        <h1 th:unless="${system.id == null}">Edit System</h1>
+    </div>
+    <form th:action="@{/systems/save}" th:object="${system}" method="post" style="max-width: 600px; margin: 0 auto;">
+        <input type="hidden" th:field="*{id}" th:value="${system.id}">
+        <div class="m-3">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Name: </label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{name}" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Hosting: </label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{hosting}" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Owner: </label>
+                <div class="col-sm-8">
+                    <input type="text" th:field="*{owner}" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Persons: </label>
+                <div class="col-sm-8 text-left">
+                    <th:block th:each="person : ${listPersons}">
+                        <div>
+                            <input type="checkbox" th:field="*{persons}" th:text="${person.name}" th:value="${person.id}" class="m-2">
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-sm-4">Processes: </label>
+                <div class="col-sm-8 text-left">
+                    <th:block th:each="person : ${listProcesses}">
+                        <div>
+                            <input type="checkbox" th:field="*{processes}" th:text="${person.name}" th:value="${person.id}" class="m-2">
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="text-center p-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
